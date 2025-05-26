@@ -1,0 +1,96 @@
+/* Reset de márgenes y estructura base */
+body {
+    overflow-x: hidden; /* Evita scroll horizontal */
+    padding: 0;
+    margin: 0;
+}
+
+.wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar - Versión Desktop */
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    min-height: 100vh;
+    background: #343a40;
+    position: fixed;
+    top: 55px;
+    left: 0;
+    z-index: 1000;
+    transition: all 0.3s;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenido principal */
+#content {
+    width: 100%;
+    margin-left: 250px; /* Igual al ancho del sidebar */
+    transition: all 0.3s;
+    min-height: 100vh;
+}
+
+/* Estilos para móviles */
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -300px;
+    }
+    #sidebar.active {
+        margin-left: -10px;
+    }
+    #content {
+        width: 100%;
+        margin-left: -20px;
+    }
+    #content.active {
+        margin-left: 235px;
+    }
+}
+
+/* Estilos de navegación */
+.components li a {
+    padding: 10px 15px;
+    color: white;
+    display: block;
+    transition: all 0.3s;
+}
+
+.components li a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    text-decoration: none;
+}
+
+/* Estilos para el formulario de venta */
+.card {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#image-preview {
+    text-align: center;
+}
+
+/* Mejora para campos de formulario */
+.form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Tarjetas de productos */
+.card {
+    transition: transform 0.2s;
+}
+.card:hover {
+    transform: translateY(-5px);
+}
+.card-footer .btn {
+    width: 100px;
+}
+.arrow{
+    padding-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items:flex-start;
+}

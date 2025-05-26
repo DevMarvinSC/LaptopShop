@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Carrusel de Laptops Destacadas -->
+<div id="laptopsCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#laptopsCarousel" data-bs-slide-to="0" class="active"></button>
+        <button type="button" data-bs-target="#laptopsCarousel" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#laptopsCarousel" data-bs-slide-to="2"></button>
+    </div>
+    <div class="carousel-inner rounded-3 shadow">
+        <div class="carousel-item active">
+            <img src="/static/image/lp2.jpg" class="d-block w-100" alt="Laptop 1">
+            <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded">
+                <h5>Laptop Premium</h5>
+                <p>¡Oferta especial! 15% de descuento.</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="/static/image/lp1.jpg" class="d-block w-100" alt="Laptop 2">
+            <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded">
+                <h5>Laptop Gamer</h5>
+                <p>Potencia extrema para gamers.</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="/static/image/lp3.jpg" class="d-block w-100" alt="Laptop 3">
+            <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded">
+                <h5>Ultrabook Delgada</h5>
+                <p>Portabilidad y rendimiento.</p>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#laptopsCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#laptopsCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
+</div>
+
+<!-- Barra de búsqueda -->
+<div class="container mb-5">
+    <form action="{{ url_for('index') }}" method="get" class="row g-3">
+        <div class="col-md-8">
+            <div class="input-group">
+                <input type="text" 
+                       class="form-control form-control-lg" 
+                       name="search" 
+                       placeholder="Buscar laptops (ej: Intel, 16GB, SSD)" 
+                       value="{{ search_query }}">
+                <button class="btn btn-primary" type="submit">
+                    <i class="bi bi-search"></i> Buscar
+                </button>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <a href="{{ url_for('index') }}" class="btn btn-outline-secondary btn-lg w-100">
+                <i class="bi bi-arrow-counterclockwise"></i> Limpiar
+            </a>
+        </div>
+    </form>
+</div>
+
+<!-- Mostrar resultados -->
+<div class="row">
+    
+    {% if laptops %}
+    <h1 class="text-center mb-4">Resultados</h1>
+        {% for laptop in laptops %}
+            <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <a href="{{ url_for('detalle_producto', id=laptop.id) }}">
+                    <img src="{{ laptop.image_url }}" class="card-img-top" alt="{{ laptop.name }}">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">{{ laptop.name }}</h5>
+                    <p class="card-text text-success fw-bold">${{ "%.2f"|format(laptop.price) }}</p>
+                    <p class="card-text">{{ laptop.description }}</p>
+                    <p>{{laptop.id}}</p>
+                </div>
+            <div class="card-footer bg-white">
+                <a href="{{ url_for('detalle_producto', id=laptop.id) }}" class="btn btn-primary">Comprar</a>
+            </div>
+        </div>
+    </div>
+        {% endfor %}
+    {% else %}
+        {% if not search_query == '' %}
+        <div class="col-12">
+            <div class="alert alert-warning">
+                No se encontraron laptops con "{{ search_query }}"
+            </div>
+        </div>
+        {% endif %}
+    {% endif %}
+</div>
+
+<!-- Título y Lista de Laptops -->
+<div class="row">
+    <h1 class="text-center mb-4">Laptops Disponibles</h1>
+    {% for laptop in laptopsSiempre %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+            <a href="{{ url_for('detalle_producto', id=laptop.id) }}">
+                <img src="{{ laptop.image_url }}" class="card-img-top" alt="{{ laptop.name }}">
+            </a>
+            <div class="card-body">
+                <h5 class="card-title">{{ laptop.name }}</h5>
+                <p class="card-text text-success fw-bold">${{ "%.2f"|format(laptop.price) }}</p>
+                <p class="card-text">{{ laptop.description }}</p>
+            </div>
+            <div class="card-footer bg-white">
+                <a href="{{ url_for('detalle_producto', id=laptop.id) }}" class="btn btn-primary">Comprar</a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="col-12">
+        <div class="alert alert-info">No hay laptops disponibles.</div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

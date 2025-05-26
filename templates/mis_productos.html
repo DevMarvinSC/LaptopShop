@@ -1,0 +1,42 @@
+{% extends "dashboard.html" %}
+{% block content %}
+<div class="container">
+    <h2 class="mb-4"><i class="bi bi-collection"></i> Mis Productos</h2>
+    <div class="arrow">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Regresar al Dashboard
+        </a>
+    </div>
+    
+    {% if not laptops %}
+    <div class="alert alert-info">No has publicado productos aún.</div>
+    {% else %}
+    <div class="row">
+        {% for laptop in laptops %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <img src="{{ laptop.image_url }}" class="card-img-top" alt="{{ laptop.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ laptop.name }}</h5>
+                    <p class="card-text text-success fw-bold">${{ "%.2f"|format(laptop.price) }}</p>
+                    <p class="card-text">{{ laptop.description }}</p>
+                </div>
+                <div class="card-footer bg-white d-flex justify-content-between">
+                    <a href="{{ url_for('editar_producto', id=laptop.id) }}" class="btn btn-sm btn-warning">
+                        <i class="bi bi-pencil"></i> Editar
+                    </a>
+                    <form method="POST" action="{{ url_for('eliminar_producto', id=laptop.id) }}" onsubmit="return confirm('¿Eliminar este producto?')">
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            <i class="bi bi-trash"></i> Eliminar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+
+</div>
+{% endblock %}
